@@ -38,5 +38,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "rimraf": "^4.4.1",
+    "@jridgewell/sourcemap-codec": "^1.4.15",
+    "workbox-google-analytics": "^7.0.0",
+    "workbox-cacheable-response": "^7.0.0",
+    "inflight": "^1.0.6"
   }
 }
