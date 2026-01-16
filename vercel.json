@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm ci && npm run build",
+  "env": {
+    "npm_config_loglevel": "error"
+  }
+}
