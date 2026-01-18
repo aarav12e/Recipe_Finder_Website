@@ -1,10 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from 'react-router-dom';
 import Search from "../components/Search";
 import RecipeList from "../components/RecipeList";
 import { getRecipes } from "../services/api";
 
 const Recipes = () => {
-    const [searchedQuery, setSearchedQuery] = useState('pizza');
+    const [searchParams] = useSearchParams();
+    const queryFromUrl = searchParams.get('search');
+    const [searchedQuery, setSearchedQuery] = useState(queryFromUrl || 'pizza');
     const [recipes, setRecipes] = useState([]);
 
     const getSearchedResult = useCallback(async () => {
@@ -13,6 +16,13 @@ const Recipes = () => {
             setRecipes(result.recipes);
         }
     }, [searchedQuery])
+
+    useEffect(() => {
+        // Update searchedQuery if URL param changes
+        if (queryFromUrl) {
+            setSearchedQuery(queryFromUrl);
+        }
+    }, [queryFromUrl]);
 
     useEffect(() => {
         getSearchedResult();
