@@ -1,10 +1,49 @@
-
+import { useRef } from "react";
 import { Button } from "semantic-ui-react";
 import Header from "../components/common/Header";
 import { Link } from "react-router-dom";
 import southIndianImage from "../assets/south_indian.png";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
+    const containerRef = useRef(null);
+
+    useGSAP(() => {
+        // Hero section animation
+        gsap.from(".hero-content", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        // Category section storytelling scroll animations
+        gsap.from(".section-title", {
+            scrollTrigger: {
+                trigger: ".category-section",
+                start: "top 80%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8
+        });
+
+        gsap.from(".category-card", {
+            scrollTrigger: {
+                trigger: ".category-grid",
+                start: "top 75%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2, // Stagger effect for cards
+            ease: "back.out(1.7)"
+        });
+    }, { scope: containerRef });
 
     const categories = [
         {
@@ -30,16 +69,18 @@ const Home = () => {
     ];
 
     return (
-        <>
-            <Header title="Our Recipes" bgClass="bg-image">
-                <Button
-                    content="SEARCH RECIPES"
-                    color="primary"
-                    as={Link}
-                    to="/recipes"
-                    size="big"
-                />
-            </Header>
+        <div ref={containerRef}>
+            <div className="hero-content">
+                <Header title="Our Recipes" bgClass="bg-image">
+                    <Button
+                        content="SEARCH RECIPES"
+                        color="primary"
+                        as={Link}
+                        to="/recipes"
+                        size="big"
+                    />
+                </Header>
+            </div>
 
             <section className="category-section">
                 <h2 className="section-title">Explore Indian Cuisines</h2>
@@ -54,7 +95,7 @@ const Home = () => {
                     ))}
                 </div>
             </section>
-        </>
+        </div>
     )
 }
 
